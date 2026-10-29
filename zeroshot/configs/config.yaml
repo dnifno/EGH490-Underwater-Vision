@@ -1,0 +1,173 @@
+# ---------------------------------------------------------------------------
+# Single configuration file for the zero-shot evaluation and enhancement
+# comparison notebooks. Paths are relative to the zeroshot/ folder, which is
+# the working directory the notebooks run in.
+# ---------------------------------------------------------------------------
+
+# ---- Project label scheme ---------------------------------------------------
+classes:
+  # Order = class index (0..9). 255 is always "ignore" (never scored).
+  names: [branching, massive, tabular, encrusting, foliose, corymbose, marine_species, background, sand, rubble]
+  colours: [[226,91,157],[236,150,21],[189,119,255],[224,118,119],[180,230,60],[0,160,80],[0,255,255],[29,162,216],[237,214,140],[150,110,75]]
+  ignore_index: 255
+
+# CVAT label name (lower-case) -> one of the class names above, or "ignore".
+# Check these against the labelmap.txt inside the CVAT export.
+cvat:
+  aliases:
+    branching: branching
+    massive: massive
+    tabular: tabular
+    encrusting: encrusting
+    foliose: foliose
+    corymbose: corymbose
+    marine species: marine_species
+    marine_species: marine_species
+    sand: sand
+    rubble: rubble
+    ignore: ignore
+    # CVAT's export paints unannotated pixels black and calls them "background".
+    # Explicit water / other-background polygons therefore need a different CVAT label (e.g. "negative").
+    negative: background
+    background: ignore
+
+# ---- Coralscapes classes -> project classes, matched by NAME (not id) -------
+# Used for the zero-shot evaluation (whichever checkpoint is set under model:).
+# Any model class not listed is ignored: never scored, and counted as "unmapped"
+# when the model predicts it.
+v1_coralscapes_mapping:
+  branching: ["branching bleached", "branching dead", "branching alive"]
+  massive: ["massive/meandering bleached", "massive/meandering alive", "massive/meandering dead",
+            "meandering bleached", "meandering alive", "meandering dead"]
+  tabular: ["table acropora alive", "table acropora dead"]
+  # "other coral *" is a catch-all (encrusting + soft + unidentifiable), so it is OFF by default.
+  # To include it use: ["other coral alive", "other coral dead", "other coral bleached"]
+  encrusting: []
+  foliose: ["turbinaria"]
+  corymbose: ["acropora alive", "pocillopora alive", "stylophora alive"]
+  marine_species: ["fish", "other animal", "sea urchin", "sea cucumber", "anemone",
+                   "sponge", "clam", "dead clam", "crown of thorn"]
+  # V1 "background" is mostly open water; "unknown hard substrate" is bare reef rock. Scene classes that are not
+  # sand/rubble/animals go here too, mirroring the V2 mapping so V1 and V2 results stay comparable.
+  background: ["background", "unknown hard substrate", "algae covered substrate", "dark", "seagrass",
+               "trash", "human", "transect line", "transect tools"]
+  sand: ["sand"]
+  rubble: ["rubble"]
+
+# V2 MAPPING:
+coralscapes_mapping:
+  branching:
+    - "branching coral alive"
+    - "branching coral bleached"
+    - "branching coral dead"
+    - "algae covered branching coral"
+    - "seriatopora alive"
+    - "seriatopora bleached"
+    - "seriatopora dead"
+    # no millepora
+
+  massive:
+    - "massive alive"
+    - "massive bleached"
+    - "massive dead"
+    - "brain coral alive"
+    - "brain coral bleached"
+    - "brain coral dead"
+    - "meandering coral alive"
+    - "meandering coral bleached"
+    - "meandering coral dead"
+    - "lobophylliidae alive"
+    - "lobophylliidae bleached"
+    - "lobophylliidae dead"
+    - "porites alive"
+    - "porites bleached"
+    - "porites dead"
+    - "goniopora alive"
+    - "goniopora dead"
+    - "algae covered massive coral"
+    - "algae covered brain coral"
+    - "algae covered lobophylliidae"
+    - "algae covered porites"
+    # removed galaxea, fungiidae, hard coral (too vague)
+
+  tabular:
+    - "table acropora alive"
+    - "table acropora bleached"
+    - "table acropora dead"
+    - "algae covered table acropora"
+
+  encrusting:
+    - "thin plate/encrusting coral alive"
+    - "thin plate/encrusting coral bleached"
+    - "thin plate/encrusting coral dead"
+
+  foliose:
+    - "turbinaria"
+    - "turbinaria dead"
+    - "pavona alive"
+    - "pavona bleached"
+    - "pavona dead"
+
+  corymbose:
+    - "acropora alive"
+    - "acropora bleached"
+    - "acropora dead"
+    - "pocillopora alive"
+    - "pocillopora bleached"
+    - "pocillopora dead"
+    - "stylophora alive"
+    - "stylophora bleached"
+    - "stylophora dead"
+    - "algae covered pocillopora"
+
+  marine_species:
+    - "fish"
+    - "other animal"
+    - "sea urchin"
+    - "sea cucumber"
+    - "anemone"
+    - "sponge"
+    - "giant clam"
+    - "dead giant clam"
+    - "acanthaster planci"
+    - "feather worm"
+    - "leather coral alive"
+    - "xeniidae alive"
+    # soft corals that occur in Moreton Bay?
+
+  sand:
+    - "sand"
+
+  rubble:
+    - "rubble"
+
+  background:
+    - "background"
+    - "hard substrate"
+    - "algae covered substrate"
+    - "dark"
+    - "seagrass"
+    - "water column"
+    - "water surface"
+    - "trash"
+    - "human"
+    - "human-made structure"
+    - "transect line"
+    - "transect tools"
+
+# ---- Model -----------------------------------------------------------------
+model:
+  # ACTIVE: CoralscapesV1 SegFormer-B2 (the model behind all quantitative results in the report).
+  checkpoint: EPFL-ECEO/segformer-b2-finetuned-coralscapes-1024-1024
+  mapping_key: v1_coralscapes_mapping            # which mapping above translates the model's classes to project classes
+  # V1 checkpoints ship an unusable id2label, so config.json is patched with this 40-entry table (id 0 = unlabeled).
+  id2label_file: configs/classes_coralscapes_v1.json
+  #
+  # To evaluate CoralscapesV2 (95 classes) instead, replace the three lines above with:
+  #   checkpoint: EPFL-ECEO/segformer-b5-finetuned-coralscapesv2-1024-1024-95_class
+  #   mapping_key: coralscapes_mapping
+  # (no id2label_file needed for V2).
+
+# ---- Data ------------------------------------------------------------------
+data:
+  own_dir: work/own # written by the CVAT conversion step: images/, masks/, summary.json

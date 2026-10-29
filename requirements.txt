@@ -1,0 +1,19 @@
+# Python 3.10 virtual environment (the project was originally run on an Apple M1 MacBook Pro).
+
+torch
+torchvision
+transformers==4.46.3
+huggingface_hub<1
+numpy<2.3
+pillow
+pyyaml
+opencv-python-headless
+scipy
+scikit-image
+matplotlib
+pandas
+jinja2
+tqdm
+requests
+ipykernel
+jupyterlab

@@ -1,0 +1,10 @@
+# label:colour_rgb:parts:actions
+background:61,61,245::
+branching:52,209,183::
+corymbose:221,255,51::
+encrusting:255,204,51::
+foliose:140,120,240::
+ignore:192,64,224::
+marine species:250,125,187::
+massive:250,50,83::
+tabular:50,183,250::

@@ -1,0 +1,41 @@
+# Large data ----------------------
+data/bluerov_videos/*
+!data/bluerov_videos/.gitkeep
+!data/bluerov_videos/README.md
+data/cvat_original_frames/
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# CVAT export archives
+*.zip
+
+# Notebook outputs written next to the notebooks
+enhancement/outputs/
+coralscapes/outputs/
+zeroshot/work/
+
+# Model weights and caches
+*.pth
+*.pt
+*.safetensors
+hf_cache/
+.cache/
+
+# Python/Jupyter 
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Editors and local settings 
+.vscode/
+.idea/
+.env
+
+# macOS 
+.DS_Store
