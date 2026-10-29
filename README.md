@@ -15,7 +15,7 @@ The repository collects the notebooks and utility code behind the segmentation a
 
 | | Question | Where it is addressed |
 |---|---|---|
-| RQ1 | How do the existing seagrass (BOSG) and YOLO-based models perform on a rugged Ubuntu workstation, and is a Jetson Orin Nano needed? | See [Scope](##Scope) section below.  |
+| RQ1 | How do the existing seagrass (BOSG) and YOLO-based models perform on a rugged Ubuntu workstation, and is a Jetson Orin Nano needed? | See [Scope](#Scope) section below.  |
 | RQ2 | How well does a Coralscapes-pretrained segmentation model perform on Moreton Bay imagery without further training, and is any degradation better explained by domain shift or image quality? | `coralscapes/`, `zeroshot/coral_eval.ipynb` |
 | RQ3 | How effective are open-source underwater image enhancement methods, including GAN-based approaches, at improving that model's performance? | `enhancement/`, `zeroshot/coral_enhancement_comparison.ipynb` |
 
