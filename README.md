@@ -23,13 +23,13 @@ The repository collects the notebooks and utility code behind the segmentation a
 
 ```
 .
-├── README.md                  you are here
+├── README.md                  🫧 you are here
 ├── requirements.txt           Python dependencies for a virtual environment
-├── .gitignore                 keeps videos, outputs, weights and caches out of git
+├── .gitignore                 
 │
 ├── data/                      inputs (see data/README.md)
-│   ├── cvat_annotations/      placeholder for the unzipped CVAT export
-│   └── bluerov_videos/        placeholder for the videos (git-ignored)
+│   ├── cvat_annotations/      CVAT export for segmentation annotations
+│   └── bluerov_videos/        placeholder for videos (git-ignored)
 │
 ├── utils/                     shared Python modules and scripts (see utils/README.md)
 │   ├── classical_utils.py     classical enhancement pipeline
